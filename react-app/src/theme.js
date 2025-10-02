@@ -37,7 +37,7 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: '"Comic Sans MS", "Comic Sans", cursive, sans-serif',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
     h1: {
       fontSize: '2.5rem',
       fontWeight: 'normal',
@@ -134,7 +134,6 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: '"Comic Sans MS", "Comic Sans", cursive, sans-serif',
           fontWeight: 'bold',
           borderRadius: '15px',
           textTransform: 'none',
