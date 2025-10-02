@@ -28,8 +28,10 @@ export default function NumberSelectionScreen({
         sx={{
           display: 'grid',
           gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: 1.25,
-          maxWidth: { xs: '280px', sm: '320px', md: '400px' },
+          gap: { xs: 0.5, sm: 1, md: 1.25 },
+          width: '100%',
+          maxWidth: { xs: 'none', sm: '320px', md: '400px' },
+          px: { xs: 0.5, sm: 0 },
           mx: 'auto',
           mb: 4,
         }}

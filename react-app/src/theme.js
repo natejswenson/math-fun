@@ -176,6 +176,7 @@ const theme = createTheme({
           color: '#666',
           aspectRatio: '1',
           minHeight: '60px',
+          minWidth: '44px',
           '&:hover': {
             borderColor: '#74b9ff',
             color: '#74b9ff',
@@ -197,7 +198,13 @@ const theme = createTheme({
           '@media (max-width:400px)': {
             fontSize: '1.2rem',
             padding: '10px',
-            minHeight: '45px',
+            minHeight: '44px',
+          },
+          '@media (max-width:360px)': {
+            fontSize: '1.1rem',
+            padding: '8px',
+            border: '2px solid #ddd',
+            minHeight: '44px',
           },
         },
       },
