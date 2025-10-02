@@ -50,4 +50,4 @@ jobs:
         with:
           path: ./react-app/dist
       - uses: actions/deploy-pages@v4
-          id: deployment
+        id: deployment
