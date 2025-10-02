@@ -24,3 +24,7 @@ export const QUIZ_CONFIG = {
   NUM_ANSWER_CHOICES: 3,
   NUM_WRONG_ANSWERS: 2,
 };
+
+export const TIMING = {
+  AUTO_ADVANCE_DELAY: 1500, // milliseconds - delay before auto-advancing on correct answer
+};

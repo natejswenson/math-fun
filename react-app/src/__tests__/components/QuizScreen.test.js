@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
@@ -93,7 +93,7 @@ describe('QuizScreen', () => {
       />
     );
 
-    expect(screen.getByText('🎉 Correct! Great job! 🎉')).toBeInTheDocument();
+    expect(screen.getByText(/Congrats!/)).toBeInTheDocument();
   });
 
   it('shows incorrect feedback when wrong answer selected', () => {
@@ -162,5 +162,139 @@ describe('QuizScreen', () => {
     );
 
     expect(screen.getByText('← Back to Start')).toBeInTheDocument();
+  });
+
+  describe('Auto-advance on correct answer', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('does not show Continue button when answer is correct', () => {
+      renderWithTheme(
+        <QuizScreen
+          question={mockQuestion}
+          selectedAnswer={0} // correct answer
+          score={1}
+          totalQuestions={1}
+          onSelectAnswer={() => {}}
+          onNextQuestion={() => {}}
+          onBack={() => {}}
+          showBackToNumberSelection={false}
+        />
+      );
+
+      expect(screen.queryByText('Continue')).not.toBeInTheDocument();
+    });
+
+    it('shows Continue button when answer is incorrect', () => {
+      renderWithTheme(
+        <QuizScreen
+          question={mockQuestion}
+          selectedAnswer={1} // incorrect answer
+          score={0}
+          totalQuestions={1}
+          onSelectAnswer={() => {}}
+          onNextQuestion={() => {}}
+          onBack={() => {}}
+          showBackToNumberSelection={false}
+        />
+      );
+
+      expect(screen.getByText('Continue')).toBeInTheDocument();
+    });
+
+    it('automatically calls onNextQuestion after 1.5s on correct answer', () => {
+      const onNextQuestion = vi.fn();
+
+      renderWithTheme(
+        <QuizScreen
+          question={mockQuestion}
+          selectedAnswer={0} // correct answer
+          score={1}
+          totalQuestions={1}
+          onSelectAnswer={() => {}}
+          onNextQuestion={onNextQuestion}
+          onBack={() => {}}
+          showBackToNumberSelection={false}
+        />
+      );
+
+      expect(onNextQuestion).not.toHaveBeenCalled();
+
+      act(() => {
+        vi.advanceTimersByTime(1500);
+      });
+
+      expect(onNextQuestion).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not auto-advance on incorrect answer', () => {
+      const onNextQuestion = vi.fn();
+
+      renderWithTheme(
+        <QuizScreen
+          question={mockQuestion}
+          selectedAnswer={1} // incorrect answer
+          score={0}
+          totalQuestions={1}
+          onSelectAnswer={() => {}}
+          onNextQuestion={onNextQuestion}
+          onBack={() => {}}
+          showBackToNumberSelection={false}
+        />
+      );
+
+      act(() => {
+        vi.advanceTimersByTime(2000);
+      });
+
+      expect(onNextQuestion).not.toHaveBeenCalled();
+    });
+
+    it('cleans up timer on unmount', () => {
+      const onNextQuestion = vi.fn();
+
+      const { unmount } = renderWithTheme(
+        <QuizScreen
+          question={mockQuestion}
+          selectedAnswer={0} // correct answer
+          score={1}
+          totalQuestions={1}
+          onSelectAnswer={() => {}}
+          onNextQuestion={onNextQuestion}
+          onBack={() => {}}
+          showBackToNumberSelection={false}
+        />
+      );
+
+      unmount();
+
+      act(() => {
+        vi.advanceTimersByTime(1500);
+      });
+
+      expect(onNextQuestion).not.toHaveBeenCalled();
+    });
+
+    it('displays brief "Congrats!" message for correct answer', () => {
+      renderWithTheme(
+        <QuizScreen
+          question={mockQuestion}
+          selectedAnswer={0} // correct answer
+          score={1}
+          totalQuestions={1}
+          onSelectAnswer={() => {}}
+          onNextQuestion={() => {}}
+          onBack={() => {}}
+          showBackToNumberSelection={false}
+        />
+      );
+
+      expect(screen.getByText(/Congrats!/)).toBeInTheDocument();
+    });
   });
 });

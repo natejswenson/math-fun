@@ -1,4 +1,6 @@
 import { Box, Button, Typography, Fade } from '@mui/material';
+import { useEffect } from 'react';
+import { TIMING } from '../utils/constants';
 
 /**
  * Quiz screen with question, answers, and feedback
@@ -15,6 +17,17 @@ export default function QuizScreen({
 }) {
   const isAnswered = selectedAnswer !== null;
   const isCorrect = isAnswered && selectedAnswer === question.correctIndex;
+
+  // Auto-advance to next question on correct answer
+  useEffect(() => {
+    if (isCorrect) {
+      const timer = setTimeout(() => {
+        onNextQuestion();
+      }, TIMING.AUTO_ADVANCE_DELAY);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isCorrect, onNextQuestion]);
 
   return (
     <Box>
@@ -43,14 +56,18 @@ export default function QuizScreen({
           <Box>
             <Box className={isCorrect ? 'feedback-correct' : 'feedback-incorrect'}>
               {isCorrect ? (
-                '🎉 Correct! Great job! 🎉'
+                'Congrats! ✓'
               ) : (
                 `❌ Oops! The correct answer is ${question.correctAnswer} ❌`
               )}
             </Box>
-            <Button variant="continue" onClick={onNextQuestion}>
-              Continue
-            </Button>
+
+            {/* Only show Continue button for incorrect answers */}
+            {!isCorrect && (
+              <Button variant="continue" onClick={onNextQuestion}>
+                Continue
+              </Button>
+            )}
           </Box>
         </Fade>
       )}
