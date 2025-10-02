@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 
 /**
- * Custom Material-UI theme matching Bailey's Friendly Numbers design
+ * Custom Material-UI theme for Math Fun
  * All styling is centralized here - no component-level styles
  */
 

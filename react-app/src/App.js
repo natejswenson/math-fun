@@ -8,7 +8,7 @@ import NumberSelectionScreen from './components/NumberSelectionScreen';
 import QuizScreen from './components/QuizScreen';
 
 /**
- * Main App component for Bailey's Friendly Numbers
+ * Main App component for Math Fun
  */
 function App() {
   const {
@@ -38,7 +38,7 @@ function App() {
         <Container maxWidth="sm">
           <Paper>
             <Typography variant="h1" sx={{ mb: 4 }}>
-              🌟 Bailey's Friendly Numbers! 🌟
+              🌟 Math Fun! 🌟
             </Typography>
 
             {state.screen === SCREENS.START && (
