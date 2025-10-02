@@ -1,6 +1,5 @@
 import { Box, Button, Typography, Fade } from '@mui/material';
 import { useEffect } from 'react';
-import { TIMING } from '../utils/constants';
 
 /**
  * Quiz screen with question, answers, and feedback
@@ -18,14 +17,10 @@ export default function QuizScreen({
   const isAnswered = selectedAnswer !== null;
   const isCorrect = isAnswered && selectedAnswer === question.correctIndex;
 
-  // Auto-advance to next question on correct answer
+  // Auto-advance immediately on correct answer
   useEffect(() => {
     if (isCorrect) {
-      const timer = setTimeout(() => {
-        onNextQuestion();
-      }, TIMING.AUTO_ADVANCE_DELAY);
-
-      return () => clearTimeout(timer);
+      onNextQuestion();
     }
   }, [isCorrect, onNextQuestion]);
 

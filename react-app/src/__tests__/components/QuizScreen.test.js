@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
@@ -79,22 +79,6 @@ describe('QuizScreen', () => {
     expect(onSelectAnswer).toHaveBeenCalledWith(0);
   });
 
-  it('shows correct feedback when correct answer selected', () => {
-    renderWithTheme(
-      <QuizScreen
-        question={mockQuestion}
-        selectedAnswer={0}
-        score={1}
-        totalQuestions={1}
-        onSelectAnswer={() => {}}
-        onNextQuestion={() => {}}
-        onBack={() => {}}
-        showBackToNumberSelection={false}
-      />
-    );
-
-    expect(screen.getByText(/Congrats!/)).toBeInTheDocument();
-  });
 
   it('shows incorrect feedback when wrong answer selected', () => {
     renderWithTheme(
@@ -165,31 +149,6 @@ describe('QuizScreen', () => {
   });
 
   describe('Auto-advance on correct answer', () => {
-    beforeEach(() => {
-      vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
-
-    it('does not show Continue button when answer is correct', () => {
-      renderWithTheme(
-        <QuizScreen
-          question={mockQuestion}
-          selectedAnswer={0} // correct answer
-          score={1}
-          totalQuestions={1}
-          onSelectAnswer={() => {}}
-          onNextQuestion={() => {}}
-          onBack={() => {}}
-          showBackToNumberSelection={false}
-        />
-      );
-
-      expect(screen.queryByText('Continue')).not.toBeInTheDocument();
-    });
-
     it('shows Continue button when answer is incorrect', () => {
       renderWithTheme(
         <QuizScreen
@@ -207,7 +166,7 @@ describe('QuizScreen', () => {
       expect(screen.getByText('Continue')).toBeInTheDocument();
     });
 
-    it('automatically calls onNextQuestion after 0.5s on correct answer', () => {
+    it('immediately calls onNextQuestion on correct answer', () => {
       const onNextQuestion = vi.fn();
 
       renderWithTheme(
@@ -222,12 +181,6 @@ describe('QuizScreen', () => {
           showBackToNumberSelection={false}
         />
       );
-
-      expect(onNextQuestion).not.toHaveBeenCalled();
-
-      act(() => {
-        vi.advanceTimersByTime(500);
-      });
 
       expect(onNextQuestion).toHaveBeenCalledTimes(1);
     });
@@ -248,53 +201,7 @@ describe('QuizScreen', () => {
         />
       );
 
-      act(() => {
-        vi.advanceTimersByTime(2000);
-      });
-
       expect(onNextQuestion).not.toHaveBeenCalled();
-    });
-
-    it('cleans up timer on unmount', () => {
-      const onNextQuestion = vi.fn();
-
-      const { unmount } = renderWithTheme(
-        <QuizScreen
-          question={mockQuestion}
-          selectedAnswer={0} // correct answer
-          score={1}
-          totalQuestions={1}
-          onSelectAnswer={() => {}}
-          onNextQuestion={onNextQuestion}
-          onBack={() => {}}
-          showBackToNumberSelection={false}
-        />
-      );
-
-      unmount();
-
-      act(() => {
-        vi.advanceTimersByTime(500);
-      });
-
-      expect(onNextQuestion).not.toHaveBeenCalled();
-    });
-
-    it('displays brief "Congrats!" message for correct answer', () => {
-      renderWithTheme(
-        <QuizScreen
-          question={mockQuestion}
-          selectedAnswer={0} // correct answer
-          score={1}
-          totalQuestions={1}
-          onSelectAnswer={() => {}}
-          onNextQuestion={() => {}}
-          onBack={() => {}}
-          showBackToNumberSelection={false}
-        />
-      );
-
-      expect(screen.getByText(/Congrats!/)).toBeInTheDocument();
     });
   });
 });
