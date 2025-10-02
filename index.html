@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bailey's Friendly Numbers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Bailey's Friendly Numbers! 🌟</h1>
+
+        <div id="start-screen">
+            <h2>Choose Your Math Adventure!</h2>
+            <div id="operation-buttons">
+                <button class="operation-btn" onclick="startQuiz('×')">
+                    <span class="operation-symbol">×</span>
+                    <span class="operation-name">Multiplication</span>
+                </button>
+                <button class="operation-btn" onclick="startQuiz('÷')">
+                    <span class="operation-symbol">÷</span>
+                    <span class="operation-name">Division</span>
+                </button>
+                <button class="operation-btn" onclick="startQuiz('+')">
+                    <span class="operation-symbol">+</span>
+                    <span class="operation-name">Addition</span>
+                </button>
+                <button class="operation-btn" onclick="startQuiz('-')">
+                    <span class="operation-symbol">-</span>
+                    <span class="operation-name">Subtraction</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="number-selection-screen" class="hidden">
+            <h2 id="number-selection-title">Choose Numbers to Practice</h2>
+            <p id="number-selection-subtitle">Select the numbers you want to focus on (choose at least one):</p>
+
+            <div id="number-buttons">
+                <button class="number-btn" data-number="0" onclick="toggleNumber(0)">0</button>
+                <button class="number-btn" data-number="1" onclick="toggleNumber(1)">1</button>
+                <button class="number-btn" data-number="2" onclick="toggleNumber(2)">2</button>
+                <button class="number-btn" data-number="3" onclick="toggleNumber(3)">3</button>
+                <button class="number-btn" data-number="4" onclick="toggleNumber(4)">4</button>
+                <button class="number-btn" data-number="5" onclick="toggleNumber(5)">5</button>
+                <button class="number-btn" data-number="6" onclick="toggleNumber(6)">6</button>
+                <button class="number-btn" data-number="7" onclick="toggleNumber(7)">7</button>
+                <button class="number-btn" data-number="8" onclick="toggleNumber(8)">8</button>
+                <button class="number-btn" data-number="9" onclick="toggleNumber(9)">9</button>
+            </div>
+
+            <div id="number-selection-controls">
+                <button id="start-practice-btn" onclick="startPractice()" disabled>Start Practice</button>
+                <button id="back-to-operations-btn" onclick="goBackToStart()">← Back to Operations</button>
+            </div>
+        </div>
+
+        <div id="quiz-container" class="hidden">
+            <div id="question-section">
+                <h2 id="question">6 × 7 = ?</h2>
+            </div>
+
+            <div id="answers-section">
+                <button class="answer-btn" id="answer-1" onclick="selectAnswer(0)">42</button>
+                <button class="answer-btn" id="answer-2" onclick="selectAnswer(1)">35</button>
+                <button class="answer-btn" id="answer-3" onclick="selectAnswer(2)">49</button>
+            </div>
+
+            <div id="feedback-section" class="hidden">
+                <div id="feedback-message"></div>
+                <button id="continue-btn" onclick="nextQuestion()">Continue</button>
+            </div>
+
+            <div id="back-section">
+                <button id="back-btn" onclick="goBackToNumberSelection()">← Back to Number Selection</button>
+            </div>
+        </div>
+
+        <div id="score-section" class="hidden">
+            <p>Score: <span id="score">0</span> / <span id="total">0</span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
