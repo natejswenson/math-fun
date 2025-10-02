@@ -207,7 +207,7 @@ describe('QuizScreen', () => {
       expect(screen.getByText('Continue')).toBeInTheDocument();
     });
 
-    it('automatically calls onNextQuestion after 1.5s on correct answer', () => {
+    it('automatically calls onNextQuestion after 0.5s on correct answer', () => {
       const onNextQuestion = vi.fn();
 
       renderWithTheme(
@@ -226,7 +226,7 @@ describe('QuizScreen', () => {
       expect(onNextQuestion).not.toHaveBeenCalled();
 
       act(() => {
-        vi.advanceTimersByTime(1500);
+        vi.advanceTimersByTime(500);
       });
 
       expect(onNextQuestion).toHaveBeenCalledTimes(1);
@@ -274,7 +274,7 @@ describe('QuizScreen', () => {
       unmount();
 
       act(() => {
-        vi.advanceTimersByTime(1500);
+        vi.advanceTimersByTime(500);
       });
 
       expect(onNextQuestion).not.toHaveBeenCalled();

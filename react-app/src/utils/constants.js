@@ -26,5 +26,5 @@ export const QUIZ_CONFIG = {
 };
 
 export const TIMING = {
-  AUTO_ADVANCE_DELAY: 1500, // milliseconds - delay before auto-advancing on correct answer
+  AUTO_ADVANCE_DELAY: 500, // milliseconds - delay before auto-advancing on correct answer
 };
